@@ -1,1 +1,1 @@
-hi
+return 0;
