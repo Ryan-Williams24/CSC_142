@@ -1,5 +1,5 @@
 ---
 triple:          'arm64-apple-darwin'
-binary-path:     '/Users/raiju/Desktop/School/CSC_142/Week1/Lab2/MPG'
+binary-path:     '/Users/raiju/School/CSC_142/Week1/Lab2/MPG'
 relocations:     []
 ...

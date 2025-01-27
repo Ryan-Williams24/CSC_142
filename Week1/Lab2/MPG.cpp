@@ -35,6 +35,7 @@
  */
 
 #include <iostream>
+#include <math.h>
 
 int main(){   
     // Constant declarations
@@ -44,7 +45,7 @@ int main(){
     std::string desc;
     int miles;
     float gallons;      
-    float mpg;
+    double mpg;
 
     // Prompt for user inputs
     // Ensure that when typing input in the console, you give a whole number for miles,
@@ -53,13 +54,11 @@ int main(){
     std::getline(std::cin, desc);
     std::cout<<"How many miles did you drive? ";
     std::cin>>miles;
-    std::getline(std::cin, desc);
     std::cout<<"How many gallons of gas did you use? ";
-    std::getline(std::cin, desc);
     std::cin>>gallons;
 
     // Calculate the results
-    float mpg = miles / gallons;
+    mpg = miles / gallons;
 
     // Print the user inputs and final results
     std::cout<<"\n";
