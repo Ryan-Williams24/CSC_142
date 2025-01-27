@@ -52,14 +52,14 @@ int main(){
     std::cout<<"Please enter a description of your car: ";
     std::getline(std::cin, desc);
     std::cout<<"How many miles did you drive? ";
-    std::getline(std::cin, desc);
     std::cin>>miles;
+    std::getline(std::cin, desc);
     std::cout<<"How many gallons of gas did you use? ";
     std::getline(std::cin, desc);
     std::cin>>gallons;
 
     // Calculate the results
-    mpg = miles / gallons;
+    float mpg = miles / gallons;
 
     // Print the user inputs and final results
     std::cout<<"\n";
