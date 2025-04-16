@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/raiju/School/CSC_142/Week10/Hard/Week10Hard'
+relocations:     []
+...
