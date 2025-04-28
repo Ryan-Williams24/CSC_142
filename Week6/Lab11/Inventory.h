@@ -1,54 +1,76 @@
+// Inventory.h
 #ifndef INVENTORY_H
 #define INVENTORY_H
-#endif  INVENTORY_H
 
-#include <string>
-#include <vector>
 #include "Book.h"
-
-class Inventory {
-private:
-    std::vector<Book> books;
-    int capacity;
-
-public:
-    Inventory(int capacity);
-    void addBook(const Book& book);
-    void changePrice(const std::string& isbn, double newPrice);
-    void printInventory() const;
-};
-
 #include <iostream>
 #include <iomanip>
+#include <string>
 
-Inventory::Inventory(int capacity) : capacity(capacity) {}
+class Inventory {
+public:
+    // ctor: allocate array of given size
+    Inventory(int size)
+      : books_(new Book[size]),
+        nextEntry_(0),
+        length_(size)
+    {}
 
-void Inventory::addBook(const Book& book) {
-    if (books.size() < capacity) {
-        books.push_back(book);
-    } else {
-        std::cerr << "Inventory is full. Cannot add more books.\n";
+    // dtor: free array
+    ~Inventory() {
+        delete[] books_;
     }
-}
 
-void Inventory::changePrice(const std::string& isbn, double newPrice) {
-    for (auto& book : books) {
-        if (book.getISBN() == isbn) {
-            book.setPrice(newPrice);
-            return;
+    // Task 1.1: addBook
+    // returns true if there was space; false if full
+    bool addBook(const Book& b) {
+        if (nextEntry_ >= length_) return false;
+        books_[nextEntry_++] = b;
+        return true;
+    }
+
+    // Task 1.2: changePrice
+    void changePrice(const std::string& isbn, double newPrice) {
+        for (int i = 0; i < nextEntry_; ++i) {
+            if (books_[i].getIsbn() == isbn) {
+                books_[i].setPrice(newPrice);
+                return;
+            }
         }
+        // not found: silently do nothing (could print a warning)
     }
-    std::cerr << "Book with ISBN " << isbn << " not found.\n";
-}
 
-void Inventory::printInventory() const {
-    for (const auto& book : books) {
-        std::cout << std::fixed << std::setprecision(2)
-                  << "ISBN: " << book.getISBN()
-                  << ", Author: " << book.getAuthor()
-                  << ", Title: " << book.getTitle()
-                  << ", Edition: " << book.getEdition()
-                  << ", Publisher: " << book.getPublisher()
-                  << ", Price: $" << book.getPrice() << '\n';
+    // Task 1.3: printInventory
+    void printInventory() const {
+        // header
+        std::cout
+          << "ISBN          AUTHOR           TITLE                                   ED  PUB   PRICE\n"
+          << "--------------------------------------------------------------------------------\n";
+
+        for (int i = 0; i < nextEntry_; ++i) {
+            const Book& b = books_[i];
+            std::cout
+              << std::left
+              << std::setw(13) << b.getIsbn()  << ' '
+              << std::setw(15) << b.getAuthor() << ' '
+              << std::setw(40) << b.getTitle()  << ' '
+              << std::right
+              << std::setw(2)  << b.getEdition() << "   "
+              << std::left
+              << std::setw(3)  << b.getPublisher() << ' '
+              << '$'
+              << std::right
+              << std::setw(7)  << std::fixed << std::setprecision(2) << b.getPrice()
+              << "\n";
+        }
+
+        std::cout << "--------------------------------------------------------------------------------\n";
     }
-}
+
+private:
+    Book* books_;
+    int   nextEntry_;
+    int   length_;
+};
+
+#endif // INVENTORY_H
